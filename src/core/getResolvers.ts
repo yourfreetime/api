@@ -27,10 +27,9 @@ const getResolvers = (): any[] => {
           );
         });
       } else if (definition.name.value === 'Mutation') {
-        definition.fields.map((field: any, ...params: any[]) => {
-          resolvers.Mutation[field.name.value] = controller[
-            field.name.value
-          ].bind(controller, ...params);
+        definition.fields.map((field: any) => {
+          resolvers.Mutation[field.name.value] = (...params: any[]) =>
+            controller[field.name.value](...params);
         });
       }
     });

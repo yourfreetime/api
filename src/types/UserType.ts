@@ -4,14 +4,21 @@ const UserType = gql`
   type User {
     name: String
     email: String
-    password: String
     picture: String
     dateCreated: Date
     dateUpdated: Date
   }
-
+  input UserCreate {
+    name: String!
+    email: String!
+    picture: String!
+    password: String!
+  }
   type Query {
     listUsers: [User]
+  }
+  type Mutation {
+    createUser(input: UserCreate): User
   }
 `;
 

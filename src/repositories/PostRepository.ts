@@ -19,7 +19,7 @@ class PostRepository {
     return await PostModel.findById(postId);
   }
 
-  async createPost(post: IPost): Promise<IPost> {
+  async createPost(post: IPost | any): Promise<IPost> {
     return await PostModel.create(post);
   }
 

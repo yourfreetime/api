@@ -3,6 +3,8 @@ import path from 'path';
 import { DocumentNode, GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
 
+const listScalars = ['Int', 'Float', 'String', 'Boolean', 'ID', 'Date'];
+
 const getResolvers = (): any[] => {
   const basePathTypes = path.join(process.cwd(), '/dist/types');
   const basePathControllers = path.join(process.cwd(), '/dist/controllers');
@@ -23,16 +25,16 @@ const getResolvers = (): any[] => {
 
     const type: DocumentNode = require(path.join(basePathTypes, file)).default;
 
-    type.definitions.map((definition: any) => {
+    type.definitions.forEach((definition: any) => {
       if (definition.name.value === 'Query') {
-        definition.fields.map((field: any, ...params: any[]) => {
+        definition.fields.forEach((field: any, ...params: any[]) => {
           resolvers.Query[field.name.value] = controller[field.name.value].bind(
             controller,
             ...params
           );
         });
       } else if (definition.name.value === 'Mutation') {
-        definition.fields.map((field: any) => {
+        definition.fields.forEach((field: any) => {
           if (!controller[field.name.value]) {
             throw new Error(
               `Function '${field.name.value}' not exists in '${nameController}'`
@@ -42,6 +44,29 @@ const getResolvers = (): any[] => {
           resolvers.Mutation[field.name.value] = (...params: any[]) =>
             controller[field.name.value](...params);
         });
+      } else {
+        if (definition.kind === 'ObjectTypeDefinition') {
+          const nameContext = file.replace('Type.js', '');
+          resolvers[nameContext] = {};
+
+          definition.fields.forEach((field: any) => {
+            if (!listScalars.includes(field.type.name.value)) {
+              const ControllerField = require(path.join(
+                basePathControllers,
+                `${field.type.name.value}Controller.js`
+              )).default;
+
+              const controllerField = new ControllerField();
+
+              resolvers[nameContext][field.name.value] = (...params: any[]) =>
+                controllerField[`getBy${nameContext}`](...params);
+            }
+          });
+
+          if (Object.keys(resolvers[nameContext]).length === 0) {
+            delete resolvers[nameContext];
+          }
+        }
       }
     });
   });

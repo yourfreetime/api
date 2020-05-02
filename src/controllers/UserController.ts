@@ -19,6 +19,10 @@ class UserController {
 
     return await this.userRepository.createUser(user);
   }
+
+  public async getByPost(post: any) {
+    return await this.userRepository.findUser(post.author);
+  }
 }
 
 export default UserController;

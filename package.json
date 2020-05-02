@@ -6,10 +6,12 @@
   "private": true,
   "dependencies": {
     "@types/cors": "^2.8.6",
+    "@types/mongoose": "^5.7.14",
     "@types/node": "^13.13.4",
     "apollo-server": "^2.12.0",
     "cors": "^2.8.5",
     "graphql": "^15.0.0",
+    "mongoose": "^5.9.11",
     "typescript": "^3.8.3"
   },
   "scripts": {

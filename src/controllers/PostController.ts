@@ -1,6 +1,6 @@
-const resolvers = {
-  Query: {
-    posts: () => [
+class PostController {
+  public posts() {
+    return [
       {
         title: 'Harry Potter and the Chamber of Secrets',
         author: 'J.K. Rowling'
@@ -9,8 +9,8 @@ const resolvers = {
         title: 'Jurassic Park',
         author: 'Michael Crichton'
       }
-    ]
+    ];
   }
-};
+}
 
-export default resolvers;
+export default PostController;

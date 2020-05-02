@@ -1,10 +1,12 @@
 import { ApolloServer } from 'apollo-server';
 import getTypes from './core/getTypes';
-import PostResolver from './resolvers/PostResolver';
+import getResolvers from './core/getResolvers';
+
+console.log(getResolvers());
 
 const server = new ApolloServer({
   typeDefs: getTypes(),
-  resolvers: PostResolver
+  resolvers: getResolvers()
 });
 
 server.listen().then(({ url }) => {

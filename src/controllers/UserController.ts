@@ -14,6 +14,8 @@ class UserController {
     user.email = args.input.email;
     user.picture = args.input.picture;
     user.password = args.input.password;
+    user.dateCreated = new Date();
+    user.dateUpdated = new Date();
 
     return await this.userRepository.createUser(user);
   }

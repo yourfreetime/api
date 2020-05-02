@@ -65,7 +65,7 @@ const scalars = () => ({
       return new Date(value);
     },
     serialize(value) {
-      return value.getTime();
+      return value;
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.INT) {

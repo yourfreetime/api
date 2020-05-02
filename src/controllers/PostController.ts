@@ -1,15 +1,10 @@
+import PostRepository from '../repositories/PostRepository';
+
 class PostController {
-  public posts() {
-    return [
-      {
-        title: 'Harry Potter and the Chamber of Secrets',
-        author: 'J.K. Rowling'
-      },
-      {
-        title: 'Jurassic Park',
-        author: 'Michael Crichton'
-      }
-    ];
+  public postRepository: PostRepository = PostRepository.getInstance();
+
+  public async getPosts() {
+    return await this.postRepository.allPost();
   }
 }
 

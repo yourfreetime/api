@@ -7,7 +7,7 @@ const getResolvers = (): any[] => {
   const basePathControllers = path.join(process.cwd(), '/dist/controllers');
   const files: string[] = fs.readdirSync(basePathTypes);
 
-  let resolvers: any = { Query: {} };
+  let resolvers: any = { Query: {}, Mutation: {} };
 
   files.map(file => {
     const nameController = file.replace('Type', 'Controller');
@@ -19,12 +19,23 @@ const getResolvers = (): any[] => {
 
     type.definitions.map((definition: any) => {
       if (definition.name.value === 'Query') {
-        definition.fields.map((field: any) => {
-          resolvers.Query[field.name.value] = controller[field.name.value];
+        definition.fields.map((field: any, ...params: any[]) => {
+          resolvers.Query[field.name.value] = controller[field.name.value].bind(
+            controller,
+            ...params
+          );
         });
       }
     });
   });
+
+  if (Object.keys(resolvers.Query).length === 0) {
+    delete resolvers.Query;
+  }
+
+  if (Object.keys(resolvers.Mutation).length === 0) {
+    delete resolvers.Mutation;
+  }
 
   return resolvers;
 };

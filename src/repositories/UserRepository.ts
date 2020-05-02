@@ -1,6 +1,22 @@
 import UserModel, { IUser } from '../models/UserModel';
 
 class UserRepository {
+  private static _instance: UserRepository = new UserRepository();
+
+  private constructor() {
+    if (UserRepository._instance) {
+      throw new Error(
+        'Error: Instantiation failed: Use SingletonClass.getInstance() instead of new.'
+      );
+    }
+
+    UserRepository._instance = this;
+  }
+
+  public static getInstance() {
+    return UserRepository._instance;
+  }
+
   async allUser(): Promise<IUser[]> {
     return await UserModel.find({});
   }

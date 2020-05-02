@@ -1,9 +1,9 @@
 import { ApolloServer } from 'apollo-server';
-import PostType from './types/PostType';
+import getTypes from './core/getTypes';
 import PostResolver from './resolvers/PostResolver';
 
 const server = new ApolloServer({
-  typeDefs: PostType,
+  typeDefs: getTypes(),
   resolvers: PostResolver
 });
 

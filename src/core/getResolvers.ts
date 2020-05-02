@@ -12,6 +12,11 @@ const getResolvers = (): any[] => {
 
   files.forEach(file => {
     const nameController = file.replace('Type', 'Controller');
+
+    if (!fs.existsSync(path.join(basePathControllers, nameController))) {
+      throw new Error(`Controller '${nameController}' not exists`);
+    }
+
     const Controller = require(path.join(basePathControllers, nameController))
       .default;
     const controller = new Controller();
@@ -28,6 +33,12 @@ const getResolvers = (): any[] => {
         });
       } else if (definition.name.value === 'Mutation') {
         definition.fields.map((field: any) => {
+          if (!controller[field.name.value]) {
+            throw new Error(
+              `Function '${field.name.value}' not exists in '${nameController}'`
+            );
+          }
+
           resolvers.Mutation[field.name.value] = (...params: any[]) =>
             controller[field.name.value](...params);
         });

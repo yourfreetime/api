@@ -2,8 +2,6 @@ import { ApolloServer } from 'apollo-server';
 import getTypes from './core/getTypes';
 import getResolvers from './core/getResolvers';
 
-console.log(getResolvers());
-
 const server = new ApolloServer({
   typeDefs: getTypes(),
   resolvers: getResolvers()

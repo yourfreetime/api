@@ -1,6 +1,6 @@
 const { gql } = require('apollo-server');
 
-export default gql`
+const PostType = gql`
   type Post {
     title: String
     author: String
@@ -10,3 +10,5 @@ export default gql`
     getPosts: [Post]
   }
 `;
+
+export default PostType;

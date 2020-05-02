@@ -17,7 +17,7 @@ class UserRepository {
     return UserRepository._instance;
   }
 
-  async allUser(): Promise<IUser[]> {
+  async allUsers(): Promise<IUser[]> {
     return await UserModel.find({});
   }
 

@@ -23,14 +23,16 @@ class PostRepository {
     return await PostModel.create(post);
   }
 
-  async updatePost(id: String, post: IPost): Promise<IPost> {
-    return await PostModel.updateOne({ _id: id }, post);
+  async updatePost(id: String, post: IPost | any): Promise<IPost | null> {
+    await PostModel.updateOne({ _id: id }, post);
+
+    return await PostModel.findById(id);
   }
 
   async deletePost(postId: String): Promise<boolean> {
-    const result = await PostModel.deleteOne(postId);
+    const result = await PostModel.deleteOne({ _id: postId });
 
-    return !!result.ok;
+    return !!result.n && result.n > 0;
   }
 }
 

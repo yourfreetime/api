@@ -15,4 +15,6 @@ export const PostSchema: Schema = new Schema({
   dateUpdated: Date
 });
 
+PostSchema.set('toJSON', { virtuals: true });
+
 export default model<IPost>('Post', PostSchema);

@@ -18,4 +18,6 @@ export const UserSchema: Schema = new Schema({
   dateUpdated: Date
 });
 
+UserSchema.set('toJSON', { virtuals: true });
+
 export default model<IUser>('User', UserSchema);

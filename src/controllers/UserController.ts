@@ -20,8 +20,16 @@ class UserController {
     return await this.userRepository.createUser(user);
   }
 
-  public async getByPost(post: any) {
+  public async getAuthorByPost(post: any) {
     return await this.userRepository.findUser(post.author);
+  }
+
+  public async getUserByFollow(follow: any) {
+    return await this.userRepository.findUser(follow.userId);
+  }
+
+  public async getUserFollowByFollow(follow: any) {
+    return await this.userRepository.findUser(follow.userFollowId);
   }
 }
 

@@ -27,11 +27,9 @@ const getResolvers = (): any[] => {
 
     type.definitions.forEach((definition: any) => {
       if (definition.name.value === 'Query') {
-        definition.fields.forEach((field: any, ...params: any[]) => {
-          resolvers.Query[field.name.value] = controller[field.name.value].bind(
-            controller,
-            ...params
-          );
+        definition.fields.forEach((field: any) => {
+          resolvers.Query[field.name.value] = (...params: any[]) =>
+            controller[field.name.value](...params);
         });
       } else if (definition.name.value === 'Mutation') {
         definition.fields.forEach((field: any) => {
@@ -59,7 +57,9 @@ const getResolvers = (): any[] => {
               const controllerField = new ControllerField();
 
               resolvers[nameContext][field.name.value] = (...params: any[]) =>
-                controllerField[`getBy${nameContext}`](...params);
+                controllerField[
+                  `get${capitalize(field.name.value)}By${nameContext}`
+                ](...params);
             }
           });
 
@@ -100,5 +100,9 @@ const scalars = () => ({
     }
   })
 });
+
+const capitalize = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 
 export default getResolvers;

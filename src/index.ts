@@ -1,8 +1,11 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server';
 import getTypes from './core/getTypes';
 import getResolvers from './core/getResolvers';
 import Loaders from './utils/loaders';
+
+dotenv.config();
 
 const loaders = Loaders.Instance;
 

@@ -1,5 +1,3 @@
-import dotenv from 'dotenv';
-
 export class Loaders {
   private static _instance: Loaders;
   private database: string;
@@ -10,8 +8,6 @@ export class Loaders {
     if (Loaders._instance) {
       throw new Error("Error: Instantiation failed: Use Loaders.getInstance() instead of new.");
     }
-
-    dotenv.config();
 
     this.host = process.env['SERVER_HOST'] || '0.0.0.0';
     this.port = parseInt(process.env['SERVER_PORT'] || '4000');

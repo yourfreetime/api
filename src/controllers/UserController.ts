@@ -31,6 +31,10 @@ class UserController {
   public async getUserFollowByFollow(follow: any) {
     return await this.userRepository.findUser(follow.userFollowId);
   }
+
+  public async getUserByLike(like: any) {
+    return await this.userRepository.findUser(like.userId);
+  }
 }
 
 export default UserController;

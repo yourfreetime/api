@@ -48,10 +48,17 @@ const getResolvers = (): any[] => {
           resolvers[nameContext] = {};
 
           definition.fields.forEach((field: any) => {
-            if (!listScalars.includes(field.type.name.value)) {
+            let type = null;
+            if (field.type.kind === 'NamedType') {
+              type = field.type;
+            } else {
+              type = field.type.type;
+            }
+
+            if (!listScalars.includes(type.name.value)) {
               const ControllerField = require(path.join(
                 basePathControllers,
-                `${field.type.name.value}Controller.js`
+                `${type.name.value}Controller.js`
               )).default;
 
               const controllerField = new ControllerField();

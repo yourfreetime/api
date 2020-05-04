@@ -5,6 +5,7 @@ const PostType = gql`
     id: String
     text: String
     author: User
+    likes: [Like]
     dateCreated: Date
     dateUpdated: Date
   }

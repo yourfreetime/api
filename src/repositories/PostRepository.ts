@@ -1,5 +1,5 @@
 import PostModel, { IPost } from '../models/PostModel';
-
+import { ILike } from '../models/LikeModel';
 class PostRepository {
   private static _instance: PostRepository = new PostRepository();
 
@@ -33,6 +33,20 @@ class PostRepository {
     const result = await PostModel.deleteOne({ _id: postId });
 
     return !!result.n && result.n > 0;
+  }
+
+  async createLike(postId: String, like: ILike): Promise<IPost> {
+    return await PostModel.updateOne(
+      { _id: postId },
+      { $push: { likes: like } }
+    );
+  }
+
+  async deleteLike(postId: String, userId: String): Promise<IPost> {
+    return await PostModel.updateOne(
+      { _id: postId },
+      { $pull: { likes: { userId: userId } } }
+    );
   }
 }
 

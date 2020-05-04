@@ -6,6 +6,7 @@ const PostType = gql`
     text: String
     author: User
     likes: [Like]
+    comments: [Comment]
     dateCreated: Date
     dateUpdated: Date
   }
@@ -28,9 +29,9 @@ const PostType = gql`
     listPosts(filter: PostFilter): [Post]
   }
   type Mutation {
-    createPost(input: PostCreate): Post
-    updatePost(input: PostUpdate): Post
-    deletePost(input: PostDelete): Boolean
+    createPost(input: PostCreate!): Post
+    updatePost(input: PostUpdate!): Post
+    deletePost(input: PostDelete!): Boolean
   }
 `;
 

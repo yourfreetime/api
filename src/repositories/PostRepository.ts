@@ -1,5 +1,6 @@
 import PostModel, { IPost } from '../models/PostModel';
 import { ILike } from '../models/LikeModel';
+import { IComment } from '../models/CommentModel';
 class PostRepository {
   private static _instance: PostRepository = new PostRepository();
 
@@ -46,6 +47,33 @@ class PostRepository {
     return await PostModel.updateOne(
       { _id: postId },
       { $pull: { likes: { userId: userId } } }
+    );
+  }
+
+  async createComment(commentId: String, comment: IComment): Promise<IPost> {
+    return await PostModel.updateOne(
+      { _id: commentId },
+      { $push: { comments: comment } }
+    );
+  }
+
+  async updateComment(
+    postId: String,
+    commentId: String,
+    text: String
+  ): Promise<IPost> {
+    return await PostModel.updateOne(
+      { _id: postId, 'comments._id': commentId },
+      {
+        $set: { 'comments.$.text': text, 'comments.$.dateUpdated': new Date() }
+      }
+    );
+  }
+
+  async deleteComment(postId: String, commentId: String): Promise<IPost> {
+    return await PostModel.updateOne(
+      { _id: postId },
+      { $pull: { comments: { _id: commentId } } }
     );
   }
 }

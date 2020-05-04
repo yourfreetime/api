@@ -10,8 +10,8 @@ const LikeType = gql`
     userId: String!
   }
   type Mutation {
-    createLike(input: LikeForm): [Like]
-    deleteLike(input: LikeForm): [Like]
+    createLike(input: LikeForm!): [Like]
+    deleteLike(input: LikeForm!): [Like]
   }
 `;
 

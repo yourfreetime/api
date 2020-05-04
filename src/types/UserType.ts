@@ -19,7 +19,7 @@ const UserType = gql`
     listUsers: [User]
   }
   type Mutation {
-    createUser(input: UserCreate): User
+    createUser(input: UserCreate!): User
   }
 `;
 

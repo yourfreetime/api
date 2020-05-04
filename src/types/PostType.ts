@@ -19,8 +19,12 @@ const PostType = gql`
   input PostDelete {
     postId: String!
   }
+  input PostFilter {
+    authorId: String
+  }
   type Query {
-    listPosts: [Post]
+    getPost(postId: String): Post
+    listPosts(filter: PostFilter): [Post]
   }
   type Mutation {
     createPost(input: PostCreate): Post

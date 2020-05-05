@@ -20,6 +20,31 @@ class UserController {
     return await this.userRepository.createUser(user);
   }
 
+  public async updateUser(_: any, args: any) {
+    const user = await this.userRepository.findUser(args.input.userId);
+    user!.name = args.input.name || user!.name;
+    user!.email = args.input.email || user!.email;
+    user!.picture = args.input.picture || user!.picture;
+    user!.password = args.input.password || user!.password;
+    user!.dateUpdated = new Date();
+
+    await this.userRepository.updateUser(args.input.userId, user!);
+    return this.userRepository.findUser(args.input.userId);
+  }
+
+  public async deleteUser(_: any, args: any) {
+    return await this.userRepository.deleteUser(args.input.userId);
+  }
+
+  public async setLocation(_: any, args: any) {
+    const user = await this.userRepository.findUser(args.input.userId);
+    user!.latitude = args.input.latitude || user!.latitude;
+    user!.longitude = args.input.longitude || user!.longitude;
+
+    await this.userRepository.updateUser(args.input.userId, user!);
+    return this.userRepository.findUser(args.input.userId);
+  }
+
   public async getAuthorByPost(post: any) {
     return await this.userRepository.findUser(post.author);
   }

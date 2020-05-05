@@ -7,6 +7,8 @@ export interface IUser extends Document {
   password: String;
   picture: String;
   savedPosts: ISavedPost[];
+  latitude: Number;
+  longitude: Number;
   dateCreated: Date;
   dateUpdated: Date;
 }
@@ -17,6 +19,8 @@ export const UserSchema: Schema = new Schema({
   password: String,
   picture: String,
   savedPosts: [SavedPostSchema],
+  latitude: Number,
+  longitude: Number,
   dateCreated: Date,
   dateUpdated: Date
 });

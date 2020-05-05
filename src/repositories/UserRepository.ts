@@ -29,7 +29,7 @@ class UserRepository {
   }
 
   async deleteUser(userId: String): Promise<boolean> {
-    const result = await UserModel.deleteOne(userId);
+    const result = await UserModel.deleteOne({ _id: userId });
 
     return !!result.ok;
   }

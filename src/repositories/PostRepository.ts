@@ -30,7 +30,7 @@ class PostRepository {
     return await PostModel.findById(id);
   }
 
-  async deletePost(postId: String): Promise<boolean> {
+  async deletePost(postId: String): Promise<Boolean> {
     const result = await PostModel.deleteOne({ _id: postId });
 
     return !!result.n && result.n > 0;

@@ -7,8 +7,7 @@ export interface IUser extends Document {
   password: String;
   picture: String;
   savedPosts: ISavedPost[];
-  latitude: Number;
-  longitude: Number;
+  location: { type: String; coordinates: Number[] };
   dateCreated: Date;
   dateUpdated: Date;
 }
@@ -19,12 +18,15 @@ export const UserSchema: Schema = new Schema({
   password: String,
   picture: String,
   savedPosts: [SavedPostSchema],
-  latitude: Number,
-  longitude: Number,
+  location: {
+    type: { type: String, enum: ['Point'] },
+    coordinates: { type: [Number] }
+  },
   dateCreated: Date,
   dateUpdated: Date
 });
 
+UserSchema.index({ location: '2dsphere' });
 UserSchema.set('toJSON', { virtuals: true });
 
 export default model<IUser>('User', UserSchema);

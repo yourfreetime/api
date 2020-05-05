@@ -38,7 +38,7 @@ const UserType = gql`
     createUser(input: UserCreate!): User
     updateUser(input: UserUpdate!): User
     deleteUser(input: UserDelete!): Boolean
-    setLocation(input: LocationSet): User
+    setLocation(input: LocationSet!): User
   }
 `;
 

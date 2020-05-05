@@ -15,6 +15,7 @@ const server = new ApolloServer({
 });
 
 mongoose.connect(loaders.Database, {
+  useCreateIndex: true,
   useUnifiedTopology: true,
   useNewUrlParser: true
 });

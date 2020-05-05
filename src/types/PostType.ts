@@ -28,10 +28,16 @@ const PostType = gql`
     userId: String!
     search: String
   }
+  input PostLocationFilter {
+    latitude: Float!
+    longitude: Float!
+    userId: String!
+  }
   type Query {
     getPost(postId: String): Post
     listPosts(filter: PostFilter): [Post]
     listPostsFeed(filter: PostFeedFilter!): [Post]
+    listPostsByLocation(filter: PostLocationFilter!): [Post]
   }
   type Mutation {
     createPost(input: PostCreate!): Post

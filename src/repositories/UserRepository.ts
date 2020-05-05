@@ -1,6 +1,8 @@
 import UserModel, { IUser } from '../models/UserModel';
 import { ISavedPost } from '../models/SavedPostModel';
 
+const DISTANCE = 5000;
+
 class UserRepository {
   private static _instance: UserRepository = new UserRepository();
 
@@ -14,6 +16,21 @@ class UserRepository {
 
   async allUsers(): Promise<IUser[]> {
     return await UserModel.find({});
+  }
+
+  async allUsersByLocation(
+    longitude: Number,
+    latitude: Number
+  ): Promise<IUser[]> {
+    return await UserModel.find({
+      location: {
+        $nearSphere: {
+          $geometry: { type: 'Point', coordinates: [longitude, latitude] },
+          $minDistance: 0,
+          $maxDistance: DISTANCE
+        }
+      }
+    });
   }
 
   async findUser(userId: String): Promise<IUser | null> {

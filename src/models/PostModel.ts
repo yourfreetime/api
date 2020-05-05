@@ -5,7 +5,7 @@ import { IComment, CommentSchema } from './CommentModel';
 
 export interface IPost extends Document {
   text: String;
-  author: IUser;
+  authorId: String;
   likes: ILike[];
   comments: IComment[];
   dateCreated: Date;
@@ -14,7 +14,7 @@ export interface IPost extends Document {
 
 export const PostSchema: Schema = new Schema({
   text: String,
-  author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  authorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   likes: [LikeSchema],
   comments: [CommentSchema],
   dateCreated: Date,

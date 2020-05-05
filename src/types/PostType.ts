@@ -24,9 +24,14 @@ const PostType = gql`
   input PostFilter {
     authorId: String
   }
+  input PostFeedFilter {
+    userId: String!
+    search: String
+  }
   type Query {
     getPost(postId: String): Post
     listPosts(filter: PostFilter): [Post]
+    listPostsFeed(filter: PostFeedFilter!): [Post]
   }
   type Mutation {
     createPost(input: PostCreate!): Post

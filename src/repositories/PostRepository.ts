@@ -12,8 +12,8 @@ class PostRepository {
     return this._instance || (this._instance = new this());
   }
 
-  async allPost(filter: object): Promise<IPost[]> {
-    return await PostModel.find(filter);
+  async allPost(filter: object, sort: any = []): Promise<IPost[]> {
+    return await PostModel.find(filter).sort(sort);
   }
 
   async findPost(postId: String): Promise<IPost | null> {

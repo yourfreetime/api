@@ -1,4 +1,5 @@
 import UserModel, { IUser } from '../models/UserModel';
+import { ISavedPost } from '../models/SavedPostModel';
 
 class UserRepository {
   private static _instance: UserRepository = new UserRepository();
@@ -37,6 +38,20 @@ class UserRepository {
     const result = await UserModel.deleteOne(userId);
 
     return !!result.ok;
+  }
+
+  async createSavedPost(userId: String, savedPost: ISavedPost): Promise<IUser> {
+    return await UserModel.updateOne(
+      { _id: userId },
+      { $push: { savedPosts: savedPost } }
+    );
+  }
+
+  async deleteSavedPost(userId: String, postId: String): Promise<IUser> {
+    return await UserModel.updateOne(
+      { _id: userId },
+      { $pull: { savedPosts: { postId: postId } } }
+    );
   }
 }
 

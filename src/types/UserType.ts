@@ -6,6 +6,7 @@ const UserType = gql`
     name: String
     email: String
     picture: String
+    savedPosts: [SavedPost]
     dateCreated: Date
     dateUpdated: Date
   }

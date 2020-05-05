@@ -32,6 +32,10 @@ class PostController {
   public async deletePost(_: any, args: any) {
     return await this.postRepository.deletePost(args.input.postId);
   }
+
+  async getPostBySavedPost(savedPost: any) {
+    return await this.postRepository.findPost(savedPost.postId);
+  }
 }
 
 export default PostController;

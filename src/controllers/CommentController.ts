@@ -11,14 +11,14 @@ class CommentController {
     comment.dateCreated = new Date();
     comment.dateUpdated = new Date();
 
-    this.postRepository.createComment(args.input.postId, comment);
+    await this.postRepository.createComment(args.input.postId, comment);
 
     const post = await this.postRepository.findPost(args.input.postId);
     return post!.comments;
   }
 
   async updateComment(_: any, args: any) {
-    this.postRepository.updateComment(
+    await this.postRepository.updateComment(
       args.input.postId,
       args.input.commentId,
       args.input.text
@@ -29,7 +29,10 @@ class CommentController {
   }
 
   async deleteComment(_: any, args: any) {
-    this.postRepository.deleteComment(args.input.postId, args.input.commentId);
+    await this.postRepository.deleteComment(
+      args.input.postId,
+      args.input.commentId
+    );
 
     const post = await this.postRepository.findPost(args.input.postId);
     return post!.comments;

@@ -1,30 +1,21 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server';
 import getTypes from './core/getTypes';
 import getResolvers from './core/getResolvers';
+import Loaders from './core/Loaders';
+
+dotenv.config();
+
+const loaders = Loaders.Instance;
 
 const server = new ApolloServer({
   resolvers: getResolvers(),
   typeDefs: getTypes()
 });
 
-const ipMongo = process.env.IP_MONGO || 'localhost';
-const baseMongo = process.env.BASE_MONGO || 'yourfreetime';
-const usrMongo = process.env.USR_MONGO;
-const pswMongo = process.env.PSW_MONGO;
+mongoose.connect(loaders.Database, { useUnifiedTopology: true, useNewUrlParser: true });
 
-if (usrMongo) {
-  mongoose.connect(
-    `mongodb://${usrMongo}:${pswMongo}@${ipMongo}/${baseMongo}`,
-    { useUnifiedTopology: true, useNewUrlParser: true }
-  );
-} else {
-  mongoose.connect(`mongodb://${ipMongo}/${baseMongo}`, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true
-  });
-}
-
-server.listen().then(({ url }) => {
+server.listen(loaders.Port).then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });

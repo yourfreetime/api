@@ -2,7 +2,7 @@ import PostRepository from '../repositories/PostRepository';
 import convertFilter from '../utils/convertFilter';
 
 class PostController {
-  public postRepository: PostRepository = PostRepository.getInstance();
+  public postRepository: PostRepository = PostRepository.Instance;
 
   public async listPosts(_: any, args: any) {
     const newFilters = convertFilter(args.filter, ['authorId'], ['author']);

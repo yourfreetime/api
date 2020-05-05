@@ -7,8 +7,8 @@ class FollowRepository {
     FollowRepository._instance = this;
   }
 
-  public static getInstance() {
-    return FollowRepository._instance;
+  public static get Instance() {
+    return this._instance || (this._instance = new this());
   }
 
   async listFollowers(userId: String): Promise<IFollow[]> {

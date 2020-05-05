@@ -5,17 +5,11 @@ class UserRepository {
   private static _instance: UserRepository = new UserRepository();
 
   private constructor() {
-    if (UserRepository._instance) {
-      throw new Error(
-        'Error: Instantiation failed: Use SingletonClass.getInstance() instead of new.'
-      );
-    }
-
     UserRepository._instance = this;
   }
 
-  public static getInstance() {
-    return UserRepository._instance;
+  public static get Instance() {
+    return this._instance || (this._instance = new this());
   }
 
   async allUsers(): Promise<IUser[]> {

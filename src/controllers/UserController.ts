@@ -2,7 +2,7 @@ import UserRepository from '../repositories/UserRepository';
 import UserModel from '../models/UserModel';
 
 class UserController {
-  public userRepository: UserRepository = UserRepository.getInstance();
+  public userRepository: UserRepository = UserRepository.Instance;
 
   public async listUsers() {
     return await this.userRepository.allUsers();

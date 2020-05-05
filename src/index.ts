@@ -14,7 +14,10 @@ const server = new ApolloServer({
   typeDefs: getTypes()
 });
 
-mongoose.connect(loaders.Database, { useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect(loaders.Database, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
 
 server.listen(loaders.Port).then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);

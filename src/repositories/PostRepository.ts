@@ -8,8 +8,8 @@ class PostRepository {
     PostRepository._instance = this;
   }
 
-  public static getInstance() {
-    return PostRepository._instance;
+  public static get Instance() {
+    return this._instance || (this._instance = new this());
   }
 
   async allPost(filter: object): Promise<IPost[]> {

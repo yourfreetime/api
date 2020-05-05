@@ -1,7 +1,7 @@
 import FollowRepository from '../repositories/FollowRepository';
 
 class FollowController {
-  public followRepository: FollowRepository = FollowRepository.getInstance();
+  public followRepository: FollowRepository = FollowRepository.Instance;
 
   public async listFollowers(_: any, args: any) {
     return await this.followRepository.listFollowers(args.filter.userId);

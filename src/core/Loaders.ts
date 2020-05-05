@@ -1,4 +1,4 @@
-export class Loaders {
+class Loaders {
   private static _instance: Loaders;
   private database: string;
   private host: string;
@@ -6,16 +6,23 @@ export class Loaders {
 
   constructor() {
     if (Loaders._instance) {
-      throw new Error("Error: Instantiation failed: Use Loaders.getInstance() instead of new.");
+      throw new Error(
+        'Error: Instantiation failed: Use Loaders.getInstance() instead of new.'
+      );
     }
 
     this.host = process.env['SERVER_HOST'] || '0.0.0.0';
     this.port = parseInt(process.env['SERVER_PORT'] || '4000');
 
-    this.database = process.env['DATABASE'] ||
+    this.database =
+      process.env['DATABASE'] ||
       process.env['MONGODB_URL'] ||
       process.env['MONGO_PORT_27017_TCP_ADDR'] ||
       'mongodb://localhost:27017';
+
+    if (process.env['MONGODB_DATABASE']) {
+      this.database = `${this.database}/${process.env['MONGODB_DATABASE']}`;
+    }
   }
 
   public get Database() {

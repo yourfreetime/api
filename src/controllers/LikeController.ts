@@ -2,7 +2,7 @@ import PostRepository from '../repositories/PostRepository';
 import LikeModel from '../models/LikeModel';
 
 class LikeController {
-  public postRepository: PostRepository = PostRepository.getInstance();
+  public postRepository: PostRepository = PostRepository.Instance;
 
   async createLike(_: any, args: any) {
     const like = new LikeModel();

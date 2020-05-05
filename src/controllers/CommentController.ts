@@ -2,7 +2,7 @@ import PostRepository from '../repositories/PostRepository';
 import CommentModel from '../models/CommentModel';
 
 class CommentController {
-  public postRepository: PostRepository = PostRepository.getInstance();
+  public postRepository: PostRepository = PostRepository.Instance;
 
   async createComment(_: any, args: any) {
     const comment = new CommentModel();

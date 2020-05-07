@@ -37,6 +37,10 @@ class UserRepository {
     return await UserModel.findById(userId);
   }
 
+  async findUserByEmail(email: string): Promise<IUser | null> {
+    return await UserModel.findOne({ email });
+  }
+
   async createUser(user: IUser): Promise<IUser> {
     return await UserModel.create(user);
   }

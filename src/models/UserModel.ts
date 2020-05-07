@@ -3,8 +3,8 @@ import { ISavedPost, SavedPostSchema } from './SavedPostModel';
 
 export interface IUser extends Document {
   name: String;
-  email: String;
-  password: String;
+  email: string;
+  password: string;
   picture: String;
   savedPosts: ISavedPost[];
   location: { type: String; coordinates: Number[] };
@@ -27,6 +27,12 @@ export const UserSchema: Schema = new Schema({
 });
 
 UserSchema.index({ location: '2dsphere' });
-UserSchema.set('toJSON', { virtuals: true });
+UserSchema.set('toJSON', {
+  virtuals: true,
+  transform: (_, ret) => {
+    delete ret.password;
+    return ret;
+  }
+});
 
 export default model<IUser>('User', UserSchema);

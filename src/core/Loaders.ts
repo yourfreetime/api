@@ -3,6 +3,7 @@ class Loaders {
   private database: string;
   private host: string;
   private port: number;
+  private jwtToken: string;
 
   constructor() {
     if (Loaders._instance) {
@@ -13,6 +14,7 @@ class Loaders {
 
     this.host = process.env['SERVER_HOST'] || '0.0.0.0';
     this.port = parseInt(process.env['SERVER_PORT'] || '4000');
+    this.jwtToken = process.env['JWT_TOKEN'] || '';
 
     this.database =
       process.env['DATABASE'] ||
@@ -35,6 +37,10 @@ class Loaders {
 
   public get Port() {
     return this.port;
+  }
+
+  public get JwtToken() {
+    return this.jwtToken;
   }
 
   public static get Instance() {

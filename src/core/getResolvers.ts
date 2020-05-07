@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { DocumentNode, GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
+import { AuthenticationError } from 'apollo-server';
 
 const listScalars = ['Int', 'Float', 'String', 'Boolean', 'ID', 'Date'];
 
@@ -28,8 +29,13 @@ const getResolvers = (): any[] => {
     type.definitions.forEach((definition: any) => {
       if (definition.name.value === 'Query') {
         definition.fields.forEach((field: any) => {
-          resolvers.Query[field.name.value] = (...params: any[]) =>
-            controller[field.name.value](...params);
+          resolvers.Query[field.name.value] = (...params: any[]) => {
+            if (!params[2].user) {
+              throw new AuthenticationError('Not Authenticated');
+            }
+
+            return controller[field.name.value](...params);
+          };
         });
       } else if (definition.name.value === 'Mutation') {
         definition.fields.forEach((field: any) => {
@@ -39,8 +45,13 @@ const getResolvers = (): any[] => {
             );
           }
 
-          resolvers.Mutation[field.name.value] = (...params: any[]) =>
-            controller[field.name.value](...params);
+          resolvers.Mutation[field.name.value] = (...params: any[]) => {
+            if (!params[2].user) {
+              throw new AuthenticationError('Not Authenticated');
+            }
+
+            return controller[field.name.value](...params);
+          };
         });
       } else {
         if (definition.kind === 'ObjectTypeDefinition') {

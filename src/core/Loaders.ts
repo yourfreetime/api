@@ -12,8 +12,8 @@ class Loaders {
       );
     }
 
-    this.host = process.env['SERVER_HOST'] || '0.0.0.0';
-    this.port = parseInt(process.env['SERVER_PORT'] || '4000');
+    this.host = process.env['HOST'] || '0.0.0.0';
+    this.port = parseInt(process.env['PORT'] || '4000');
     this.jwtToken = process.env['JWT_TOKEN'] || '';
 
     this.database =

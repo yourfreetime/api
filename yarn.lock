@@ -389,6 +389,11 @@ apollo-link@^1.2.14:
     tslib "^1.9.3"
     zen-observable-ts "^0.8.21"
 
+apollo-merge-types@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/apollo-merge-types/-/apollo-merge-types-0.3.0.tgz#7482b693621182e25d19269d352f420a7ce8712c"
+  integrity sha512-8qyKbBo33Fbpt4uHLp8PtvYA9oJ+gkau3TvX/mNi30nAqnEffin3XOHgXmbFn/nrDD7dFPa961yB7kycgFYDfg==
+
 apollo-server-caching@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/apollo-server-caching/-/apollo-server-caching-0.5.1.tgz#5cd0536ad5473abb667cc82b59bc56b96fb35db6"

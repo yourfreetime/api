@@ -16,77 +16,76 @@ const getResolvers = (): any[] => {
   files.forEach(file => {
     const nameController = file.replace('Type', 'Controller');
 
-    if (!fs.existsSync(path.join(basePathControllers, nameController))) {
-      throw new Error(`Controller '${nameController}' not exists`);
-    }
+    if (fs.existsSync(path.join(basePathControllers, nameController))) {
+      const Controller = require(path.join(basePathControllers, nameController))
+        .default;
+      const controller = new Controller();
 
-    const Controller = require(path.join(basePathControllers, nameController))
-      .default;
-    const controller = new Controller();
+      const type: DocumentNode = require(path.join(basePathTypes, file))
+        .default;
 
-    const type: DocumentNode = require(path.join(basePathTypes, file)).default;
-
-    type.definitions.forEach((definition: any) => {
-      if (definition.name.value === 'Query') {
-        definition.fields.forEach((field: any) => {
-          resolvers.Query[field.name.value] = (...params: any[]) => {
-            if (!params[2].user) {
-              throw new AuthenticationError('Not Authenticated');
-            }
-
-            return controller[field.name.value](...params);
-          };
-        });
-      } else if (definition.name.value === 'Mutation') {
-        definition.fields.forEach((field: any) => {
-          if (!controller[field.name.value]) {
-            throw new Error(
-              `Function '${field.name.value}' not exists in '${nameController}'`
-            );
-          }
-
-          resolvers.Mutation[field.name.value] = (...params: any[]) => {
-            if (!params[2].user) {
-              throw new AuthenticationError('Not Authenticated');
-            }
-
-            return controller[field.name.value](...params);
-          };
-        });
-      } else {
-        if (definition.kind === 'ObjectTypeDefinition') {
-          const nameContext = file.replace('Type.js', '');
-          resolvers[nameContext] = {};
-
+      type.definitions.forEach((definition: any) => {
+        if (definition.name.value === 'Query') {
           definition.fields.forEach((field: any) => {
-            let type = null;
-            if (field.type.kind === 'NamedType') {
-              type = field.type;
-            } else {
-              type = field.type.type;
-            }
+            resolvers.Query[field.name.value] = (...params: any[]) => {
+              if (!params[2].user) {
+                throw new AuthenticationError('Not Authenticated');
+              }
 
-            if (!listScalars.includes(type.name.value)) {
-              const ControllerField = require(path.join(
-                basePathControllers,
-                `${type.name.value}Controller.js`
-              )).default;
-
-              const controllerField = new ControllerField();
-
-              resolvers[nameContext][field.name.value] = (...params: any[]) =>
-                controllerField[
-                  `get${capitalize(field.name.value)}By${nameContext}`
-                ](...params);
-            }
+              return controller[field.name.value](...params);
+            };
           });
+        } else if (definition.name.value === 'Mutation') {
+          definition.fields.forEach((field: any) => {
+            if (!controller[field.name.value]) {
+              throw new Error(
+                `Function '${field.name.value}' not exists in '${nameController}'`
+              );
+            }
 
-          if (Object.keys(resolvers[nameContext]).length === 0) {
-            delete resolvers[nameContext];
+            resolvers.Mutation[field.name.value] = (...params: any[]) => {
+              if (!params[2].user) {
+                throw new AuthenticationError('Not Authenticated');
+              }
+
+              return controller[field.name.value](...params);
+            };
+          });
+        } else {
+          if (definition.kind === 'ObjectTypeDefinition') {
+            const nameContext = file.replace('Type.js', '');
+            resolvers[nameContext] = {};
+
+            definition.fields.forEach((field: any) => {
+              let type = null;
+              if (field.type.kind === 'NamedType') {
+                type = field.type;
+              } else {
+                type = field.type.type;
+              }
+
+              if (!listScalars.includes(type.name.value)) {
+                const ControllerField = require(path.join(
+                  basePathControllers,
+                  `${type.name.value}Controller.js`
+                )).default;
+
+                const controllerField = new ControllerField();
+
+                resolvers[nameContext][field.name.value] = (...params: any[]) =>
+                  controllerField[
+                    `get${capitalize(field.name.value)}By${nameContext}`
+                  ](...params);
+              }
+            });
+
+            if (Object.keys(resolvers[nameContext]).length === 0) {
+              delete resolvers[nameContext];
+            }
           }
         }
-      }
-    });
+      });
+    }
   });
 
   if (Object.keys(resolvers.Query).length === 0) {

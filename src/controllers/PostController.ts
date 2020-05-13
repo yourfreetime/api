@@ -13,19 +13,19 @@ class PostController {
     return await this.postRepository.allPost(args.filter || {});
   }
 
-  public async listPostsFeed(_: any, args: any) {
+  public async listPostsFeed(_: any, args: any, context: any) {
     const followings = await this.followRepository.listFollowing(
-      args.filter.userId
+      context.user._id
     );
 
     const followingsId: String[] = followings.reduce(
       (acc: String[], item: IFollow) => [...acc, item.userFollowId],
-      [args.filter.userId]
+      [context.user._id]
     );
 
     let filter: any = { authorId: { $in: followingsId } };
 
-    if (args.filter.search) {
+    if (args.filter && args.filter.search) {
       filter.text = { $regex: args.filter.search, $options: 'i' };
     }
 

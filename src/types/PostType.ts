@@ -25,7 +25,6 @@ const PostType = gql`
     authorId: String
   }
   input PostFeedFilter {
-    userId: String!
     search: String
   }
   input PostLocationFilter {
@@ -36,7 +35,7 @@ const PostType = gql`
   type Query {
     getPost(postId: String): Post
     listPosts(filter: PostFilter): [Post]
-    listPostsFeed(filter: PostFeedFilter!): [Post]
+    listPostsFeed(filter: PostFeedFilter): [Post]
     listPostsByLocation(filter: PostLocationFilter!): [Post]
   }
   type Mutation {

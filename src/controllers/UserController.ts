@@ -8,6 +8,10 @@ class UserController {
     return await this.userRepository.allUsers();
   }
 
+  public async getUser(_: any, args: any) {
+    return await this.userRepository.findUser(args.userId);
+  }
+
   public async createUser(_: any, args: any) {
     const user = new UserModel();
     user.name = args.input.name;

@@ -32,6 +32,7 @@ const UserType = gql`
     userId: String!
   }
   type Query {
+    getUser(userId: String!): User
     listUsers: [User]
   }
   type Mutation {

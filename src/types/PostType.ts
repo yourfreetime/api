@@ -12,7 +12,6 @@ const PostType = gql`
   }
   input PostCreate {
     text: String!
-    authorId: String!
   }
   input PostUpdate {
     text: String!

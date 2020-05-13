@@ -54,10 +54,10 @@ class PostController {
     return await this.postRepository.findPost(args.postId);
   }
 
-  public async createPost(_: any, args: any) {
+  public async createPost(_: any, args: any, context: any) {
     return await this.postRepository.createPost({
       text: args.input.text,
-      authorId: args.input.authorId,
+      authorId: context.user._id,
       dateCreated: new Date(),
       dateUpdated: new Date()
     });

@@ -4,9 +4,9 @@ import LikeModel from '../models/LikeModel';
 class LikeController {
   public postRepository: PostRepository = PostRepository.Instance;
 
-  async createLike(_: any, args: any) {
+  async createLike(_: any, args: any, context: any) {
     const like = new LikeModel();
-    like.userId = args.input.userId;
+    like.userId = context.user._id;
     like.date = new Date();
 
     await this.postRepository.createLike(args.input.postId, like);
@@ -15,8 +15,8 @@ class LikeController {
     return post!.likes;
   }
 
-  async deleteLike(_: any, args: any) {
-    await this.postRepository.deleteLike(args.input.postId, args.input.userId);
+  async deleteLike(_: any, args: any, context: any) {
+    await this.postRepository.deleteLike(args.input.postId, context.user._id);
 
     const post = await this.postRepository.findPost(args.input.postId);
     return post!.likes;

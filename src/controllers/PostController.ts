@@ -1,9 +1,9 @@
+import { ForbiddenError } from 'apollo-server';
 import PostRepository from '../repositories/PostRepository';
 import FollowRepository from '../repositories/FollowRepository';
 import UserRepository from '../repositories/UserRepository';
 import { IFollow } from '../models/FollowModel';
 import { IUser } from '../models/UserModel';
-import { ForbiddenError } from 'apollo-server';
 
 class PostController {
   public postRepository: PostRepository = PostRepository.Instance;

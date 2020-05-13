@@ -7,7 +7,6 @@ const LikeType = gql`
   }
   input LikeForm {
     postId: String!
-    userId: String!
   }
   type Mutation {
     createLike(input: LikeForm!): [Like]

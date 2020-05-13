@@ -50,9 +50,17 @@ class PostRepository {
     );
   }
 
-  async createComment(commentId: String, comment: IComment): Promise<IPost> {
+  async findComment(
+    postId: String,
+    commentId: String
+  ): Promise<IComment | undefined> {
+    const post = await this.findPost(postId);
+    return post!.comments.find(comment => comment._id.toString() === commentId);
+  }
+
+  async createComment(postId: String, comment: IComment): Promise<IPost> {
     return await PostModel.updateOne(
-      { _id: commentId },
+      { _id: postId },
       { $push: { comments: comment } }
     );
   }

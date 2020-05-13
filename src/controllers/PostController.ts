@@ -3,6 +3,7 @@ import FollowRepository from '../repositories/FollowRepository';
 import UserRepository from '../repositories/UserRepository';
 import { IFollow } from '../models/FollowModel';
 import { IUser } from '../models/UserModel';
+import { ForbiddenError } from 'apollo-server';
 
 class PostController {
   public postRepository: PostRepository = PostRepository.Instance;
@@ -63,14 +64,30 @@ class PostController {
     });
   }
 
-  public async updatePost(_: any, args: any) {
+  public async updatePost(_: any, args: any, context: any) {
+    const post = await this.postRepository.findPost(args.input.postId);
+
+    if (context.user._id !== post!.authorId.toString()) {
+      throw new ForbiddenError(
+        'Authenticated user is not the author of the text'
+      );
+    }
+
     return await this.postRepository.updatePost(args.input.postId, {
       text: args.input.text,
       dateUpdated: new Date()
     });
   }
 
-  public async deletePost(_: any, args: any) {
+  public async deletePost(_: any, args: any, context: any) {
+    const post = await this.postRepository.findPost(args.input.postId);
+
+    if (context.user._id !== post!.authorId.toString()) {
+      throw new ForbiddenError(
+        'Authenticated user is not the author of the text'
+      );
+    }
+
     return await this.postRepository.deletePost(args.input.postId);
   }
 

@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { AuthenticationError } from 'apollo-server';
 
 import UserModel, { IUser } from '../models/UserModel';
 import UserRepository from '../repositories/UserRepository';

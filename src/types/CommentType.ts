@@ -11,7 +11,6 @@ const CommentType = gql`
   input CommentCreate {
     postId: String!
     text: String!
-    userId: String!
   }
   input CommentUpdate {
     postId: String!

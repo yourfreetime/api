@@ -4,9 +4,9 @@ import CommentModel from '../models/CommentModel';
 class CommentController {
   public postRepository: PostRepository = PostRepository.Instance;
 
-  async createComment(_: any, args: any) {
+  async createComment(_: any, args: any, context: any) {
     const comment = new CommentModel();
-    comment.userId = args.input.userId;
+    comment.userId = context.user._id;
     comment.text = args.input.text;
     comment.dateCreated = new Date();
     comment.dateUpdated = new Date();

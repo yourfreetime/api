@@ -33,7 +33,7 @@ class PostController {
     return await this.postRepository.allPost(filter, { dateCreated: '-1' });
   }
 
-  public async listPostsByLocation(_: any, args: any) {
+  public async listPostsByLocation(_: any, args: any, context: any) {
     const users = await this.userRepository.allUsersByLocation(
       args.filter.longitude,
       args.filter.latitude
@@ -41,7 +41,7 @@ class PostController {
 
     const usersId: String[] = users.reduce(
       (acc: String[], item: IUser) =>
-        item._id.toString() === args.filter.userId ? acc : [...acc, item._id],
+        item._id.toString() === context.user._id ? acc : [...acc, item._id],
       []
     );
 

@@ -29,7 +29,6 @@ const PostType = gql`
   input PostLocationFilter {
     latitude: Float!
     longitude: Float!
-    userId: String!
   }
   type Query {
     getPost(postId: String): Post

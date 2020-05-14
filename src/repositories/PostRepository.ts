@@ -36,6 +36,11 @@ class PostRepository {
     return !!result.n && result.n > 0;
   }
 
+  async findLike(postId: String, userId: String): Promise<ILike | undefined> {
+    const post = await this.findPost(postId);
+    return post!.likes.find(like => like.userId.toString() === userId);
+  }
+
   async createLike(postId: String, like: ILike): Promise<IPost> {
     return await PostModel.updateOne(
       { _id: postId },

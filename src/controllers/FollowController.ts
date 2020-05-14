@@ -1,3 +1,4 @@
+import { ForbiddenError } from 'apollo-server';
 import FollowRepository from '../repositories/FollowRepository';
 
 class FollowController {
@@ -12,6 +13,15 @@ class FollowController {
   }
 
   public async createFollow(_: any, args: any, context: any) {
+    const follow = await this.followRepository.getFollow(
+      context.user._id,
+      args.input.userFollowId
+    );
+
+    if (follow) {
+      throw new ForbiddenError('Follower already exists');
+    }
+
     return await this.followRepository.createFollow(
       context.user._id,
       args.input.userFollowId

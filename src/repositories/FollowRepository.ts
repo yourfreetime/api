@@ -11,6 +11,13 @@ class FollowRepository {
     return this._instance || (this._instance = new this());
   }
 
+  async getFollow(
+    userId: String,
+    userFollowId: String
+  ): Promise<IFollow | null> {
+    return await FollowModel.findOne({ userId, userFollowId });
+  }
+
   async listFollowers(userId: String): Promise<IFollow[]> {
     return await FollowModel.find({ userFollowId: userId });
   }

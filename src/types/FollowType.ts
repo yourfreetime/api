@@ -7,7 +7,6 @@ const FollowType = gql`
     date: Date
   }
   input FollowForm {
-    userId: String!
     userFollowId: String!
   }
   input FollowFilter {

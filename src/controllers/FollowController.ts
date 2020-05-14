@@ -11,16 +11,16 @@ class FollowController {
     return await this.followRepository.listFollowing(args.filter.userId);
   }
 
-  public async createFollow(_: any, args: any) {
+  public async createFollow(_: any, args: any, context: any) {
     return await this.followRepository.createFollow(
-      args.input.userId,
+      context.user._id,
       args.input.userFollowId
     );
   }
 
-  public async deleteFollow(_: any, args: any) {
+  public async deleteFollow(_: any, args: any, context: any) {
     return await this.followRepository.deleteFollow(
-      args.input.userId,
+      context.user._id,
       args.input.userFollowId
     );
   }

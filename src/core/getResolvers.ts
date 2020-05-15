@@ -9,12 +9,21 @@ const listScalars = ['Int', 'Float', 'String', 'Boolean', 'ID', 'Date'];
 const getResolvers = (): any[] => {
   const basePathTypes = path.join(process.cwd(), '/dist/types');
   const basePathControllers = path.join(process.cwd(), '/dist/controllers');
+  const basePathValidator = path.join(process.cwd(), '/dist/validators');
   const files: string[] = fs.readdirSync(basePathTypes);
 
   let resolvers: any = { Query: {}, Mutation: {}, ...scalars() };
 
   files.forEach(file => {
     const nameController = file.replace('Type', 'Controller');
+    const nameValidator = file.replace('Type', 'Validator');
+    let validator: any;
+
+    if (fs.existsSync(path.join(basePathValidator, nameValidator))) {
+      const Validator = require(path.join(basePathValidator, nameValidator))
+        .default;
+      validator = new Validator();
+    }
 
     if (fs.existsSync(path.join(basePathControllers, nameController))) {
       const Controller = require(path.join(basePathControllers, nameController))
@@ -27,9 +36,13 @@ const getResolvers = (): any[] => {
       type.definitions.forEach((definition: any) => {
         if (definition.name.value === 'Query') {
           definition.fields.forEach((field: any) => {
-            resolvers.Query[field.name.value] = (...params: any[]) => {
+            resolvers.Query[field.name.value] = async (...params: any[]) => {
               if (!params[2].user) {
                 throw new AuthenticationError('Not Authenticated');
+              }
+
+              if (validator && validator[field.name.value]) {
+                await validator[field.name.value](...params);
               }
 
               return controller[field.name.value](...params);
@@ -43,9 +56,13 @@ const getResolvers = (): any[] => {
               );
             }
 
-            resolvers.Mutation[field.name.value] = (...params: any[]) => {
+            resolvers.Mutation[field.name.value] = async (...params: any[]) => {
               if (!params[2].user) {
                 throw new AuthenticationError('Not Authenticated');
+              }
+
+              if (validator && validator[field.name.value]) {
+                await validator[field.name.value](...params);
               }
 
               return controller[field.name.value](...params);

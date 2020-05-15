@@ -18,18 +18,7 @@ class CommentController {
     return post!.comments;
   }
 
-  async updateComment(_: any, args: any, context: any) {
-    const comment = await this.postRepository.findComment(
-      args.input.postId,
-      args.input.commentId
-    );
-
-    if (context.user._id !== comment!.userId.toString()) {
-      throw new ForbiddenError(
-        'Authenticated user is not the author of the text'
-      );
-    }
-
+  async updateComment(_: any, args: any) {
     await this.postRepository.updateComment(
       args.input.postId,
       args.input.commentId,
@@ -40,18 +29,7 @@ class CommentController {
     return post!.comments;
   }
 
-  async deleteComment(_: any, args: any, context: any) {
-    const comment = await this.postRepository.findComment(
-      args.input.postId,
-      args.input.commentId
-    );
-
-    if (context.user._id !== comment!.userId.toString()) {
-      throw new ForbiddenError(
-        'Authenticated user is not the author of the text'
-      );
-    }
-
+  async deleteComment(_: any, args: any) {
     await this.postRepository.deleteComment(
       args.input.postId,
       args.input.commentId

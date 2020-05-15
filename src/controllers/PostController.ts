@@ -11,7 +11,9 @@ class PostController {
   public userRepository: UserRepository = UserRepository.Instance;
 
   public async listPosts(_: any, args: any) {
-    return await this.postRepository.allPost(args.filter || {});
+    return await this.postRepository.allPost(args.filter || {}, {
+      dateCreated: '-1'
+    });
   }
 
   public async listPostsFeed(_: any, args: any, context: any) {

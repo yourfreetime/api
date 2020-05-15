@@ -29,7 +29,9 @@ const basePath = path.join(process.cwd(), '/dist/types');
 const server = new ApolloServer({
   resolvers: getResolvers(),
   typeDefs: apolloMergeTypes(basePath),
-  context: loginController.validation.bind(loginController)
+  context: loginController.validation.bind(loginController),
+  introspection: true,
+  playground: true
 });
 
 app.use(bodyParser.json());

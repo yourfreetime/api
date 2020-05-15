@@ -36,12 +36,7 @@ const server = new ApolloServer({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: 'https://yourfreetime.netlify.app/',
-    optionsSuccessStatus: 200
-  })
-);
+app.use(cors());
 
 app.route('/login').post(loginController.login.bind(loginController));
 app.route('/signup').post(loginController.signup.bind(loginController));

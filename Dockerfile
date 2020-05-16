@@ -2,6 +2,7 @@ FROM node:stretch-slim
 
 RUN yarn global add pm2
 RUN apt-get update || : && apt-get install python -y
+RUN apt-get install build-essential -y
 
 RUN mkdir -p /api
 WORKDIR /api

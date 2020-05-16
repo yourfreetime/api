@@ -1,6 +1,8 @@
 FROM node:stretch-slim
 
 RUN yarn global add pm2
+RUN apk add --update python make g++\
+    && rm -rf /var/cache/apk/*
 
 RUN mkdir -p /api
 WORKDIR /api

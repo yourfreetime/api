@@ -8,11 +8,16 @@ import { ApolloServer } from 'apollo-server-express';
 import apolloMergeTypes from 'apollo-merge-types';
 
 import getResolvers from './core/getResolvers';
+// @ts-ignore
+import resolvers from './core/resolvers';
+import createResolver from './core/createResolver';
 import Loaders from './core/Loaders';
 
 import LoginController from './controllers/LoginController';
 
 dotenv.config();
+
+createResolver();
 
 const loaders = Loaders.Instance;
 
@@ -27,7 +32,7 @@ const loginController: LoginController = new LoginController();
 
 const basePath = path.join(process.cwd(), '/dist/types');
 const server = new ApolloServer({
-  resolvers: getResolvers(),
+  resolvers,
   typeDefs: apolloMergeTypes(basePath),
   context: loginController.validation.bind(loginController),
   introspection: true,

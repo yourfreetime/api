@@ -29,7 +29,6 @@ const UserType = gql`
   input LocationSet {
     latitude: Float!
     longitude: Float!
-    userId: String!
   }
   type Query {
     getUser(userId: String!): User

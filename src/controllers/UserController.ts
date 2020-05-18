@@ -40,15 +40,15 @@ class UserController {
     return await this.userRepository.deleteUser(args.input.userId);
   }
 
-  public async setLocation(_: any, args: any) {
-    const user = await this.userRepository.findUser(args.input.userId);
+  public async setLocation(_: any, args: any, context: any) {
+    const user = await this.userRepository.findUser(context.user._id);
     user!.location = {
       type: 'Point',
       coordinates: [args.input.longitude, args.input.latitude]
     };
 
-    await this.userRepository.updateUser(args.input.userId, user!);
-    return this.userRepository.findUser(args.input.userId);
+    await this.userRepository.updateUser(context.user._id, user!);
+    return this.userRepository.findUser(context.user._id);
   }
 
   public async getAuthorByPost(post: any) {

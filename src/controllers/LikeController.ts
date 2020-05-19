@@ -3,18 +3,9 @@ import PostRepository from '../repositories/PostRepository';
 import LikeModel from '../models/LikeModel';
 
 class LikeController {
-  public postRepository: PostRepository = PostRepository.Instance;
+  private postRepository: PostRepository = PostRepository.Instance;
 
   async createLike(_: any, args: any, context: any) {
-    const likeOld = await this.postRepository.findLike(
-      args.input.postId,
-      context.user._id
-    );
-
-    if (likeOld) {
-      throw new ForbiddenError('Liked already exists');
-    }
-
     const like = new LikeModel();
     like.userId = context.user._id;
     like.date = new Date();

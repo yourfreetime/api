@@ -7,10 +7,10 @@ import UserRepository from '../repositories/UserRepository';
 import Loaders from '../core/Loaders';
 
 class LoginController {
-  public userRepository: UserRepository = UserRepository.Instance;
-  public loaders: Loaders = Loaders.Instance;
+  private userRepository: UserRepository = UserRepository.Instance;
+  private loaders: Loaders = Loaders.Instance;
 
-  public async login(req: Request, res: Response) {
+  async login(req: Request, res: Response) {
     let isValidPassword = false;
     const user: IUser | null = await this.userRepository.findUserByEmail(
       req.body.email
@@ -32,7 +32,7 @@ class LoginController {
     return res.status(200).send({ error: false, user, token });
   }
 
-  public async signup(req: Request, res: Response) {
+  async signup(req: Request, res: Response) {
     const userFind: IUser | null = await this.userRepository.findUserByEmail(
       req.body.email
     );
@@ -70,7 +70,7 @@ class LoginController {
     }
   };
 
-  public async validation({ req }: any): Promise<any> {
+  async validation({ req }: any): Promise<any> {
     const user = this.getUser(req.headers.authorization || '');
     return { user };
   }

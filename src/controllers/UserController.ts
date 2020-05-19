@@ -2,17 +2,17 @@ import UserRepository from '../repositories/UserRepository';
 import UserModel from '../models/UserModel';
 
 class UserController {
-  public userRepository: UserRepository = UserRepository.Instance;
+  private userRepository: UserRepository = UserRepository.Instance;
 
-  public async listUsers() {
+  async listUsers() {
     return await this.userRepository.allUsers();
   }
 
-  public async getUser(_: any, args: any) {
+  async getUser(_: any, args: any) {
     return await this.userRepository.findUser(args.userId);
   }
 
-  public async createUser(_: any, args: any) {
+  async createUser(_: any, args: any) {
     const user = new UserModel();
     user.name = args.input.name;
     user.email = args.input.email;
@@ -24,7 +24,7 @@ class UserController {
     return await this.userRepository.createUser(user);
   }
 
-  public async updateUser(_: any, args: any) {
+  async updateUser(_: any, args: any) {
     const user = await this.userRepository.findUser(args.input.userId);
     user!.name = args.input.name || user!.name;
     user!.email = args.input.email || user!.email;
@@ -36,11 +36,11 @@ class UserController {
     return this.userRepository.findUser(args.input.userId);
   }
 
-  public async deleteUser(_: any, args: any) {
+  async deleteUser(_: any, args: any) {
     return await this.userRepository.deleteUser(args.input.userId);
   }
 
-  public async setLocation(_: any, args: any, context: any) {
+  async setLocation(_: any, args: any, context: any) {
     const user = await this.userRepository.findUser(context.user._id);
     user!.location = {
       type: 'Point',
@@ -51,23 +51,23 @@ class UserController {
     return this.userRepository.findUser(context.user._id);
   }
 
-  public async getAuthorByPost(post: any) {
+  async getAuthorByPost(post: any) {
     return await this.userRepository.findUser(post.authorId);
   }
 
-  public async getUserByFollow(follow: any) {
+  async getUserByFollow(follow: any) {
     return await this.userRepository.findUser(follow.userId);
   }
 
-  public async getUserFollowByFollow(follow: any) {
+  async getUserFollowByFollow(follow: any) {
     return await this.userRepository.findUser(follow.userFollowId);
   }
 
-  public async getUserByLike(like: any) {
+  async getUserByLike(like: any) {
     return await this.userRepository.findUser(like.userId);
   }
 
-  public async getUserByComment(comment: any) {
+  async getUserByComment(comment: any) {
     return await this.userRepository.findUser(comment.userId);
   }
 }

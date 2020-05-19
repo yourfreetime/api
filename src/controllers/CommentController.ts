@@ -1,9 +1,8 @@
-import { ForbiddenError } from 'apollo-server';
 import PostRepository from '../repositories/PostRepository';
 import CommentModel from '../models/CommentModel';
 
 class CommentController {
-  public postRepository: PostRepository = PostRepository.Instance;
+  private postRepository: PostRepository = PostRepository.Instance;
 
   async createComment(_: any, args: any, context: any) {
     const comment = new CommentModel();

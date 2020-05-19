@@ -2,7 +2,7 @@ import { ForbiddenError } from 'apollo-server';
 import PostRepository from '../repositories/PostRepository';
 
 class CommentValidator {
-  public postRepository: PostRepository = PostRepository.Instance;
+  private postRepository: PostRepository = PostRepository.Instance;
 
   async updateComment(_: any, args: any, context: any) {
     const comment = await this.postRepository.findComment(

@@ -6,17 +6,17 @@ import { IFollow } from '../models/FollowModel';
 import { IUser } from '../models/UserModel';
 
 class PostController {
-  public postRepository: PostRepository = PostRepository.Instance;
-  public followRepository: FollowRepository = FollowRepository.Instance;
-  public userRepository: UserRepository = UserRepository.Instance;
+  private postRepository: PostRepository = PostRepository.Instance;
+  private followRepository: FollowRepository = FollowRepository.Instance;
+  private userRepository: UserRepository = UserRepository.Instance;
 
-  public async listPosts(_: any, args: any) {
+  async listPosts(_: any, args: any) {
     return await this.postRepository.allPost(args.filter || {}, {
       dateCreated: '-1'
     });
   }
 
-  public async listPostsFeed(_: any, args: any, context: any) {
+  async listPostsFeed(_: any, args: any, context: any) {
     const followings = await this.followRepository.listFollowing(
       context.user._id
     );
@@ -35,7 +35,7 @@ class PostController {
     return await this.postRepository.allPost(filter, { dateCreated: '-1' });
   }
 
-  public async listPostsByLocation(_: any, args: any, context: any) {
+  async listPostsByLocation(_: any, args: any, context: any) {
     const users = await this.userRepository.allUsersByLocation(
       args.filter.longitude,
       args.filter.latitude
@@ -53,11 +53,11 @@ class PostController {
     );
   }
 
-  public async getPost(_: any, args: any) {
+  async getPost(_: any, args: any) {
     return await this.postRepository.findPost(args.postId);
   }
 
-  public async createPost(_: any, args: any, context: any) {
+  async createPost(_: any, args: any, context: any) {
     return await this.postRepository.createPost({
       text: args.input.text,
       authorId: context.user._id,
@@ -66,7 +66,7 @@ class PostController {
     });
   }
 
-  public async updatePost(_: any, args: any, context: any) {
+  async updatePost(_: any, args: any, context: any) {
     const post = await this.postRepository.findPost(args.input.postId);
 
     if (context.user._id !== post!.authorId.toString()) {
@@ -81,7 +81,7 @@ class PostController {
     });
   }
 
-  public async deletePost(_: any, args: any, context: any) {
+  async deletePost(_: any, args: any, context: any) {
     const post = await this.postRepository.findPost(args.input.postId);
 
     if (context.user._id !== post!.authorId.toString()) {

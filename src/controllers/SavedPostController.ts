@@ -2,7 +2,7 @@ import UserRepository from '../repositories/UserRepository';
 import SavedPostModel from '../models/SavedPostModel';
 
 class SavedPostController {
-  public userRepository: UserRepository = UserRepository.Instance;
+  private userRepository: UserRepository = UserRepository.Instance;
 
   async createSavedPost(_: any, args: any) {
     const savedPost = new SavedPostModel();

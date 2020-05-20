@@ -4,8 +4,8 @@ import UserModel from '../models/UserModel';
 class UserController {
   private userRepository: UserRepository = UserRepository.Instance;
 
-  async listUsers() {
-    return await this.userRepository.allUsers();
+  async listUsers(_: any, args: any) {
+    return await this.userRepository.allUsers(args.filter || {});
   }
 
   async getUser(_: any, args: any) {
@@ -44,7 +44,7 @@ class UserController {
     const user = await this.userRepository.findUser(context.user._id);
     user!.location = {
       type: 'Point',
-      coordinates: [args.input.longitude, args.input.latitude]
+      coordinates: [args.input.longitude, args.input.latitude],
     };
 
     await this.userRepository.updateUser(context.user._id, user!);

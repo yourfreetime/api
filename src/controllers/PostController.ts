@@ -11,9 +11,14 @@ class PostController {
   private userRepository: UserRepository = UserRepository.Instance;
 
   async listPosts(_: any, args: any) {
-    return await this.postRepository.allPost(args.filter || {}, {
-      dateCreated: '-1'
-    });
+    let filter: any = {};
+    filter.authorId = args?.filter?.authorId;
+
+    if (args?.filter?.search) {
+      filter.text = { $regex: args.filter.search, $options: 'i' };
+    }
+
+    return await this.postRepository.allPost(filter, { dateCreated: '-1' });
   }
 
   async listPostsFeed(_: any, args: any, context: any) {
@@ -28,7 +33,7 @@ class PostController {
 
     let filter: any = { authorId: { $in: followingsId } };
 
-    if (args.filter && args.filter.search) {
+    if (args?.filter?.search) {
       filter.text = { $regex: args.filter.search, $options: 'i' };
     }
 
@@ -62,7 +67,7 @@ class PostController {
       text: args.input.text,
       authorId: context.user._id,
       dateCreated: new Date(),
-      dateUpdated: new Date()
+      dateUpdated: new Date(),
     });
   }
 
@@ -77,7 +82,7 @@ class PostController {
 
     return await this.postRepository.updatePost(args.input.postId, {
       text: args.input.text,
-      dateUpdated: new Date()
+      dateUpdated: new Date(),
     });
   }
 

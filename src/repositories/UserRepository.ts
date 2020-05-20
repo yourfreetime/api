@@ -14,8 +14,8 @@ class UserRepository {
     return this._instance || (this._instance = new this());
   }
 
-  async allUsers(): Promise<IUser[]> {
-    return await UserModel.find({});
+  async allUsers(filter: object, sort: any = []): Promise<IUser[]> {
+    return await UserModel.find(filter).sort(sort);
   }
 
   async allUsersByLocation(
@@ -27,9 +27,9 @@ class UserRepository {
         $nearSphere: {
           $geometry: { type: 'Point', coordinates: [longitude, latitude] },
           $minDistance: 0,
-          $maxDistance: DISTANCE
-        }
-      }
+          $maxDistance: DISTANCE,
+        },
+      },
     });
   }
 

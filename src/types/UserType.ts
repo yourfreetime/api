@@ -30,9 +30,12 @@ const UserType = gql`
     latitude: Float!
     longitude: Float!
   }
+  input UserFilter {
+    search: String
+  }
   type Query {
     getUser(userId: String!): User
-    listUsers: [User]
+    listUsers(filter: UserFilter): [User]
   }
   type Mutation {
     createUser(input: UserCreate!): User

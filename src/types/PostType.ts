@@ -22,6 +22,7 @@ const PostType = gql`
   }
   input PostFilter {
     authorId: String
+    search: String
   }
   input PostFeedFilter {
     search: String

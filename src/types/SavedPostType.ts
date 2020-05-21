@@ -2,6 +2,7 @@ const { gql } = require('apollo-server');
 
 const SavedPostType = gql`
   type SavedPost {
+    id: String
     date: Date
     post: Post
   }

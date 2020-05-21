@@ -10,4 +10,6 @@ export const SavedPostSchema: Schema = new Schema({
   date: Date
 });
 
+SavedPostSchema.set('toJSON', { virtuals: true });
+
 export default model<ISavedPost>('SavedPost', SavedPostSchema);

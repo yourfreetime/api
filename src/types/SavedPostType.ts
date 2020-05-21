@@ -7,7 +7,6 @@ const SavedPostType = gql`
   }
   input SavedPostForm {
     postId: String!
-    userId: String!
   }
   type Mutation {
     createSavedPost(input: SavedPostForm!): [SavedPost]

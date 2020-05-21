@@ -27,9 +27,9 @@ class UserRepository {
         $nearSphere: {
           $geometry: { type: 'Point', coordinates: [longitude, latitude] },
           $minDistance: 0,
-          $maxDistance: DISTANCE,
-        },
-      },
+          $maxDistance: DISTANCE
+        }
+      }
     });
   }
 
@@ -53,6 +53,16 @@ class UserRepository {
     const result = await UserModel.deleteOne({ _id: userId });
 
     return !!result.ok;
+  }
+
+  async findSavedPost(
+    userId: String,
+    postId: String
+  ): Promise<ISavedPost | undefined> {
+    const user = await this.findUser(userId);
+    return user!.savedPosts.find(
+      savedPost => savedPost.postId.toString() === postId
+    );
   }
 
   async createSavedPost(userId: String, savedPost: ISavedPost): Promise<IUser> {

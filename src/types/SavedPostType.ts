@@ -9,6 +9,12 @@ const SavedPostType = gql`
   input SavedPostForm {
     postId: String!
   }
+  input SavedPostFilter {
+    userId: String
+  }
+  type Query {
+    listSavedPost(filter: SavedPostFilter!): [SavedPost]
+  }
   type Mutation {
     createSavedPost(input: SavedPostForm!): [SavedPost]
     deleteSavedPost(input: SavedPostForm!): [SavedPost]

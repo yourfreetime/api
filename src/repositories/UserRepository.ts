@@ -55,7 +55,7 @@ class UserRepository {
     return !!result.ok;
   }
 
-  async listSavedPost(userId: String): Promise<ISavedPost[]> {
+  async allSavedPosts(userId: String): Promise<ISavedPost[]> {
     const user = await this.findUser(userId);
     return user!.savedPosts;
   }

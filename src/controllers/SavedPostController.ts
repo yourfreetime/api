@@ -4,8 +4,8 @@ import SavedPostModel from '../models/SavedPostModel';
 class SavedPostController {
   private userRepository: UserRepository = UserRepository.Instance;
 
-  async listSavedPost(_: any, args: any) {
-    return await this.userRepository.listSavedPost(args.filter.userId);
+  async listSavedPosts(_: any, args: any) {
+    return await this.userRepository.allSavedPosts(args.filter.userId);
   }
 
   async createSavedPost(_: any, args: any, context: any) {

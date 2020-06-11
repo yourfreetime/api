@@ -1,15 +1,15 @@
 import { Document, Schema, model } from 'mongoose';
 import { ISavedPost, SavedPostSchema } from './SavedPostModel';
 
-export interface IUser extends Document {
-  name: String;
-  email: string;
-  password: string;
-  picture: String;
-  savedPosts: ISavedPost[];
-  location: { type: String; coordinates: Number[] };
-  dateCreated: Date;
-  dateUpdated: Date;
+export class IUser extends Document {
+  name!: String;
+  email!: string;
+  password!: string;
+  picture!: String;
+  savedPosts!: ISavedPost[];
+  location?: { type: String; coordinates: Number[] };
+  dateCreated!: Date;
+  dateUpdated?: Date;
 }
 
 export const UserSchema: Schema = new Schema({
